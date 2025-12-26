@@ -1,94 +1,110 @@
-# Hi, I'm Damian – Automation Engineer
 
-**Specialization:** Klipper firmware automation, real-time print monitoring, ML-driven quality control for 3D printing systems.
+# Hey, I'm Damian
 
-## 🎯 Focus Areas
+I'm an automation engineer in the making – fascinated by how to automate 3D printers. Learning Klipper firmware + ML is something I've never done before – but that's exactly what makes it interesting.
 
-- **Printer Automation**: Klipper configuration optimization, Moonraker API integration, dynamic runtime adjustments
-- **Real-time Monitoring**: Python-based telemetry collection, hardware integration (GPIO displays, camera feeds), anomaly detection
-- **ML Integration**: YOLOv8 computer vision for print failure detection, local model optimization (quantized inference)
-- **Infrastructure**: Linux system administration, API-first architecture, automated calibration pipelines
+## What I'm working on now
 
-## 📊 Current Projects
+I have an Anycubic Kobra 2 Neo with Klipper and I'm running 3 projects in parallel:
 
-### 1. **Klipper Automation Suite**
-Real-time printer control via Moonraker API with dynamic velocity adjustments, eliminating manual configuration restarts.
+**1. Klipper Automation via API** 
+Problem I found: Every time I want to test a different print speed, I have to edit `printer.cfg`, restart Klipper, wait 2–3 minutes. It's frustrating.
 
-**Tech Stack:** Python 3.10+, WebSocket (Moonraker), Klipper (firmware), Mainsail (UI)  
-**Key Achievement:** Reduced iteration time for velocity tuning from 15–20 min to <2 min per test cycle
+Solution: I'm learning Moonraker API so I can send parameters live instead. Cut testing time from 15–20 minutes down to <2 minutes.
 
-### 2. **ML-Based Print Quality Monitoring**
-Multi-modal monitoring system combining G-code trajectory analysis + computer vision for closed-loop failure prevention.
-
-**Tech Stack:** PyTorch, OpenCV, YOLOv8 (quantized), NVIDIA CUDA, Raspberry Pi 4B+ + CSI camera  
-**Key Metrics:** 10 Hz sampling via Moonraker WebSocket, <100ms latency tolerance for passive analysis  
-**Hardware:** TURZX IPS 3.5" GPIO display for real-time status visualization
-
-### 3. **ERCF V2 DIY Integration (In Progress)**
-4-color multimaterial extruder system with Klipper macro automation and tool-change optimization.
-
-**Scope:** Sub-500 PLN budget, mechanical integration, G-code deduplication, safety interlocks  
-**Target:** Reduce filament waste during tool changes through automated pressure advance tuning
+Status: ✅ Prototype works; 🔄 now learning asyncio and WebSockets
 
 ---
 
-## 🔧 Technical Competencies
+**2. ML for 3D Printing (Computer Vision)**
+Observation: My printer sometimes does weird things (layer shifts, nozzle clogs) and I don't see it until I go check manually.
 
-| Category | Skills | Tools |
-|----------|--------|-------|
-| **Firmware** | Klipper config optimization, Input Shaper calibration, macro automation | Mainsail, SSH, Git |
-| **APIs** | RESTful design, WebSocket streaming, payload optimization | Moonraker, Python requests/asyncio |
-| **ML/AI** | Computer vision pipelines, model quantization, local inference | YOLOv8, PyTorch, OpenCV, GGUF |
-| **Hardware** | GPIO integration, I2C/CSI protocols, Linux device drivers | Raspberry Pi 4B+, camera modules |
-| **DevOps** | Systemd services, log aggregation, backup automation | Bash scripting, Git versioning |
+Idea: Mount a camera, learn YOLOv8, teach a model to recognize "something went wrong". If the system spots it → sends me an alert + pauses the print.
+
+Status: 🔄 Ordering camera; learning PyTorch; never done this before
 
 ---
 
-## 📈 Metrics
+**3. ERCF V2 (4-Color Printing)**
+I want to print in 4 colors for <$20 USD (~500 PLN). ERCF is probably the best open-source solution.
 
-- **Printer Uptime Optimization:** 95%+ reliability after config consolidation (removed 7 conflicting macros)
-- **Calibration Automation:** Bash pipeline for flow/pressure-advance tuning → 60% reduction in manual iteration
-- **API Integration:** Moonraker WebSocket stability → <10ms latency for telemetry collection
-- **Hardware Integration:** 3-device stack (RPi display + camera + printer) with unified control interface
+Challenge: Integration with Klipper means writing macros I've never written before. Lots of thinking about details (tool changes, safety checks).
 
----
-
-## 🎓 Approach
-
-1. **Root Cause Analysis** – Systematic diagnosis before implementation (e.g., oozing problem → premature nozzle heating root cause)
-2. **Complete Solutions** – Deployment packages include error handling, logging, rollback procedures
-3. **Safety First** – All critical changes tested in isolated configs before production rollout
-4. **Automation Over Manual** – Every repetitive task gets a script; minimize human intervention
+Status: 🚧 Gathering parts; learning Klipper macros
 
 ---
 
-## 💻 Hardware Stack
+## Why I'm talking about this publicly
 
-| Component | Spec | Role |
-|-----------|------|------|
-| Printer | Anycubic Kobra 2 Neo | 3D print platform |
-| Controller | Raspberry Pi 4B+ | Klipper host, Moonraker API server |
-| GPU (workstation) | RTX 4060 8GB, Windows 11 | ML model training/inference |
-| Monitoring | 5MP CSI camera + TURZX GPIO display | Real-time visual feedback |
-| Calibration | ADXL345 accelerometer (planned) | Vibration analysis for closed-loop tuning |
+1. **It forces me to document better** – Writing this makes me more thorough
+2. **I want feedback** – If I'm doing something dumb, I'd rather know early
+3. **Community** – The Klipper/3D printing community is awesome, I want to be part of it
+4. **Maybe it inspires someone** – If you also want to automate your printer
+
+## What I've accomplished so far (lessons learned)
+
+### ✅ What worked:
+
+- **Input Shaper calibration** (X: 54.8 Hz, Y: 34.0 Hz) – Measured with ADXL345, now I understand what it means
+- **Macro deduplication** – Found 7 conflicting macros in my config. Cleaned them up.
+- **Nozzle heating fix** – Problem: nozzle heated before bed = excessive oozing. Solution: heat bed first, then nozzle. Documented.
+- **Bash script for calibration** – Automated pressure advance testing (no fancy UI, but it works)
+
+### ❌ What taught me lessons:
+
+- **Editing .cfg without backup** – Before Git, I had a mess. Now Git for everything.
+- **Premature optimization** – Wanted "perfect config" from day one. Now I prefer "working + ugly" over "broken + nice"
+- **Ignoring Input Shaper** – Thought it was advanced stuff for nerds. Turns out it's the KEY constraint for everything I do.
+
+## Technical stack (what I'm picking up)
+
+| Topic | Level | How I'm learning |
+|-------|-------|------------------|
+| **Python** | 🌱 Basics | YouTube + ChatGPT |
+| **Klipper config** | 🌱 Basics | Docs + trial & error |
+| **APIs** | 🌱 Just starting | Moonraker docs + Stack Overflow |
+| **Machine Learning** | 🌱 Just starting | Fast.ai + YouTube |
+| **Linux/Raspberry Pi** | 🌳 Solid (SSH, bash) | Work experience |
+| **Electronics/Hardware** | 🌳 Medium (GPIO, I2C) | DIY builds, datasheets |
+| **Git** | 🌳 Good (commits, branches) | Daily use |
+
+## Hardware I have
+
+- **Printer:** Anycubic Kobra 2 Neo (new, testing it)
+- **Controller:** Raspberry Pi 4B+ running Klipper
+- **Workstation:** Xeon E5-2650 V4, 32GB RAM, RTX 4060 8GB (Windows 11) – for ML stuff
+- **Camera:** 5MP Raspberry Pi CSI (on order)
+- **Display:** TURZX 3.5" IPS GPIO (already have)
+
+## What I want to learn in 6 months
+
+- ✅ Moonraker API – what interface does it have, how to use it
+- ✅ YOLOv8 – training, quantization, local inference
+- ✅ ERCF integration – macros, safety, servo control
+- ⏳ Closed-loop vibration control (ADXL345 pass-through) – this is the hard part
+- ⏳ Contributing to Klipper – maybe I'll have something to propose
+
+## Where I can be wrong
+
+I don't have experience with:
+- Production ML code (only tutorials)
+- C++/embedded systems (Klipper core)
+- Commercial API integration (doing this for myself)
+- Mechanical engineering (ERCF needs this)
+
+If you see me doing something wrong → please write an Issue on GitHub.
 
 ---
 
-## 📚 Key Learnings
+## 🔗 Connect with me
 
-- **Input Shaper constraints matter:**
-- Y-axis 34 Hz limit fundamentally caps acceleration profiles – respect hardware limits
-- **Strategy selection:**
-- Moonraker API (Strategy A) suitable for passive monitoring; direct ADXL passthrough (Strategy B) required for active vibration control
-- **Configuration management:**
-- Git versioning + atomic commits + backup before every change = zero unrecoverable states
-- **Safety protocols:** Incorrect printer configs can damage hardware or create fire hazards – implement interlocks before automation
-
----
-
-## 🔗 Connect
-
-- **Email:** damian.misko@windowslive.com
+- **Email:** damian.misko@windowslive.com (fastest response)
+- **GitHub:** github.com/dornvite92
+- **LinkedIn:** linkedin.com/in/dornvite92 -- IN PROGRESS 
 - **Location:** Bydgoszcz, Poland 🇵🇱
 
+If you're doing something similar or want to learn Klipper → would be cool to connect.
+
 ---
+
+*Last updated: December 2025 | Still learning; repos are WIP*
